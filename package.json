@@ -1,12 +1,11 @@
 {
     "name": "validatereg",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "React Validate Registro",
     "keywords": [
         "validar",
         "CPF",
-        "CNPJ", 
-        "Contato"
+        "CNPJ"
     ],
     "main": "./lib/index.js",
     "license": "MIT",
@@ -33,5 +32,5 @@
         "reactstrap": "^8.1.1",
         "webpack": "^4.5.0",
         "webpack-cli": "^3.2.1"
-    },
+    }
 }
