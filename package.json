@@ -5,7 +5,8 @@
     "keywords": [
         "validar",
         "CPF",
-        "CNPJ"
+        "CNPJ", 
+        "Contato"
     ],
     "main": "./lib/index.js",
     "license": "MIT",

@@ -5,12 +5,6 @@ Usado para validação de campos como, Telefone, CPF e CNPJ.
 
 Como fazer a utilização do validatereg. 
 
-Exemplo do import. 
-import { InputRegistro, Btn, InputContato } from 'validatereg'
-
-
-
-
 * Propriedade "registro" ela define o tipo do campo, lembrando que aceita somente "CPF" ou "CNPJ". 
 * Propriedade "name" define o tipo de campo que será salvo exemplo "pfpj". 
 * Propriedade "updateValue" atualiza o Input mantendo as informações. 
@@ -18,6 +12,10 @@ import { InputRegistro, Btn, InputContato } from 'validatereg'
 //// Detalhe dentro de seu componente principal tem que ter um update value 
 //// Exemplo Utilizado no Formik. 
 //// exemplo:
+
+        /// Exemplo do import. 
+        
+        import { InputRegistro, Btn } from 'validatereg'
 
         /// Classe principal... 
         export class frmCliente extends Component {
@@ -44,6 +42,8 @@ import { InputRegistro, Btn, InputContato } from 'validatereg'
                             {...this.state}
                         >
                     </div>
+
+                    <Btn />
                 )
             }
         }
