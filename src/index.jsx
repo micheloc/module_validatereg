@@ -86,9 +86,9 @@ export class InputContato extends Component {
                     type="text"
                     name={this.props.tpContato}
                     id={this.props.tpContato}
-                    mask={this.props.tpContato === "fone"?'(99) 9999-9999':'(99) 9 9999-9999'}
-                    placeholder={this.props.tpContato === "fone"? '(61) 3620-1515':'(61) 9 9500-4515'}
-                    onBlur={this.props.tpContato === "fone"? this.checked_tel:this.checked_cel  }
+                    mask={this.props.tpContato === "fax"?'(99) 9999-9999':'(99) 9 9999-9999'}
+                    placeholder={this.props.tpContato === "fax"? '(61) 3620-1515':'(61) 9 9500-4515'}
+                    onBlur={this.props.tpContato === "fax"? this.checked_tel:this.checked_cel  }
                     onClick={this.clearErro}
                     onChange={this.updateValue}
                     value={this.props.value}
