@@ -1,0 +1,12 @@
+.inputError{
+    border: 2px solid red;
+    -webkit-box-shadow: 0px 3px 5px 0px rgba(184,175,184,1);
+    -moz-box-shadow: 0px 3px 5px 0px rgba(184,175,184,1);
+    box-shadow: 0px 3px 5px 0px rgba(184,175,184,1);
+}
+
+.labelError{
+    font-family: 'Times New Roman', Times, serif;
+    color: red;
+    font-size: 13px;
+}
