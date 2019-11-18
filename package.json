@@ -1,6 +1,6 @@
 {
     "name": "validatereg",
-    "version": "0.3.6",
+    "version": "0.3.7",
     "description": "React Validate Registro",
     "keywords": [
         "validar",
@@ -8,7 +8,7 @@
         "CNPJ"
     ],
     "author": {
-        "name": "Michel Oliveira", 
+        "name": "Michel Oliveira",
         "email": "michel.o.c@hotmail.com"
     },
     "main": "./lib/index.js",

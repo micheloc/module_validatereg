@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { toast } from 'react-toastify';
 import InputMask from 'react-input-mask';
-import { Input, Label, Button ,FormGroup } from 'reactstrap'; 
+import { Input, Label, Button  } from 'reactstrap'; 
 import '../css/InputError.css'; 
 
 export var formValidate = ""
@@ -425,7 +424,7 @@ export class InputRegistro extends Component {
         
         if (found != undefined){
             this.setState({form_input: "form-control inputError"})
-            this.setState({messageError: "( CNPJ Existente !) "})
+            this.setState({messageError: "( Registro existente !) "})
             AddListErro(this.props.name)
             EnabledButton();
         }})})
