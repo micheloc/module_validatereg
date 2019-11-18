@@ -60,7 +60,6 @@ function RemoveListErro (campo){
 function searchValidate (valor){
     if (valor.length > 0 ){
         var encontrei  = blockSearch.filter(item => valor.includes(item.registro))
-        console.log(encontrei)
         if (encontrei.length === 0){
             disabledDupRegister = true; 
         }else{
@@ -103,7 +102,6 @@ export class InputContato extends Component {
     }
 
     checked_cel = (value, length) =>{
-        console.log("oi")
         if (length > 0 && length < 11){
             this.setState({form_input: "form-control inputError"})
             this.setState({messageError: "( Campo incompleto! ) "})
@@ -151,7 +149,6 @@ export class InputContato extends Component {
                 }
                 if (nameCamp === ""){
                     if (value.length <= 0){
-                        console.log("Campo Vazio")
                         this.setState({form_input: "form-control inputError"})
                         this.setState({messageError: "( Campo obrigatorio!) "})
                         AddListErro(props.name)
@@ -416,18 +413,20 @@ export class InputRegistro extends Component {
     }
 
     duplicateRegister = (value) =>{
-        this.props.dbRegister.get("/proprietario")
-        .then(response => { this.setState({listProprietario: response.data},()=>{
-        var found = this.state.listProprietario.find(function(element) {
-            return element.pfpj === value;
-        });
-        
-        if (found != undefined){
-            this.setState({form_input: "form-control inputError"})
-            this.setState({messageError: "( Registro existente !) "})
-            AddListErro(this.props.name)
-            EnabledButton();
-        }})})
+        if (value  != ""){
+            this.props.dbRegister.get("/proprietario")
+            .then(response => { this.setState({listProprietario: response.data},()=>{
+            var found = this.state.listProprietario.find(function(element) {
+                return element.pfpj === value;
+            });
+            
+            if (found != undefined){
+                this.setState({form_input: "form-control inputError"})
+                this.setState({messageError: "( Registro existente !) "})
+                AddListErro(this.props.name)
+                EnabledButton();
+            }})})
+        }
     }
 
     setEmptyValue = (e) => {
