@@ -3,27 +3,28 @@ import InputMask from 'react-input-mask';
 import { Input, Label, Button  } from 'reactstrap'; 
 import '../css/InputError.css'; 
 
-export var formValidate = ""
+//export var formValidate = ""
+export var list_cadastro = []; 
 
-var disabledDupRegister = true;
-var enableSearch = true; 
-
-export function disabledChecked(){
-    disabledDupRegister = false;
+var objIDRegister;
+export function DupRegisterCheck(objID){
+    objIDRegister = objID; 
 }
-var blockSearch = []; 
+
 var blobk_button = []; 
 var error_list = []; 
+
+
 var nameCamp = ""
 var nameInput = ""
 var cheCked = false; 
 
-
-// Verificar campo repetido.. 
 var validateCamp = false; 
-// Verificar se o campo é obrigatorio é estar vazio. 
 var validateInputContato = false; 
 var validateInputRegistro = false; 
+var validateDupInputRegistro = false;
+
+
 
 
 function EnabledButton() {
@@ -56,18 +57,6 @@ function RemoveListErro (campo){
     error_list = error_list.filter(item => !campo.includes(item))
 }
 
-
-function searchValidate (valor){
-    if (valor.length > 0 ){
-        var encontrei  = blockSearch.filter(item => valor.includes(item.registro))
-        if (encontrei.length === 0){
-            disabledDupRegister = true; 
-        }else{
-            disabledDupRegister = false; 
-        }
-    }
-}
-
 export class InputContato extends Component {
     constructor(props){
         super(props); 
@@ -98,7 +87,6 @@ export class InputContato extends Component {
             AddListErro(this.props.name)
             EnabledButton();
         }
-
     }
 
     checked_cel = (value, length) =>{
@@ -165,12 +153,22 @@ export class InputContato extends Component {
             }
             if (props.req === false){
                 if (props.name === nameCamp){
-                    if (value.length >= 0){
-                        this.setState({form_input: "form-control"})
-                        this.setState({messageError: ""})
-                        RemoveListErro(props.name)
-                        RemoveBlockButton(props.name)
-                        EnabledButton(); 
+                    if (props.tpContato === "fax"){
+                        if (value.length === 10){
+                            this.setState({form_input: "form-control"})
+                            this.setState({messageError: ""})
+                            RemoveListErro(props.name)
+                            RemoveBlockButton(props.name)
+                            EnabledButton(); 
+                        }
+                    }else{
+                        if (value.length === 11){
+                            this.setState({form_input: "form-control"})
+                            this.setState({messageError: ""})
+                            RemoveListErro(props.name)
+                            RemoveBlockButton(props.name)
+                            EnabledButton(); 
+                        }
                     }
                 }
             }
@@ -198,7 +196,7 @@ export class InputContato extends Component {
         var vlr = e.target.value.replace(/[^0-9]/g, '').toString().split("")
         var stringCamp = e.target.value.replace(/[^0-9]/g, '').toString()
         validateInputContato = true
-        {this.props.name === "fax"? this.checked_tel(stringCamp, vlr.length):this.checked_cel(stringCamp, vlr.length)}
+        {this.props.tpContato === "fax"? this.checked_tel(stringCamp, vlr.length):this.checked_cel(stringCamp, vlr.length)}
         this.handleChange()
     }
 
@@ -244,21 +242,12 @@ export class InputRegistro extends Component {
     }
 
     componentDidMount(){
-        enableSearch = true; 
         if (this.props.req === true){
             AddBlockButton(this.props.name)
         }
     }
 
     componentWillReceiveProps(props){
-        if (props.value != "" && enableSearch === true){
-            let value = Object.assign({}, this.state.registro)
-            value["name"] = props.name; 
-            value["registro"] = props.value; 
-            blockSearch.push(value); 
-            enableSearch = false; 
-        }
-
         if (nameInput === this.props.name || cheCked === true){
             var value = props.value.replace(/[^0-9]/g, '').toString().split("")
             // Verifica se o campo é obrigatório. 
@@ -282,8 +271,8 @@ export class InputRegistro extends Component {
                         EnabledButton(); 
                     }
                 }
-                if (nameCamp === ""){
-                    if (value.length <= 0){
+                if (nameCamp === "" ){
+                    if (value.length <= 0 ){
                         this.setState({form_input: "form-control inputError"})
                         this.setState({messageError: "( Campo obrigatorio!) "})
                         AddListErro(props.name)
@@ -300,12 +289,37 @@ export class InputRegistro extends Component {
             }
             if (props.req === false){
                 if (props.name === nameCamp){
-                    if (value.length >= 0){
-                        this.setState({form_input: "form-control"})
-                        this.setState({messageError: ""})
-                        RemoveListErro(props.name)
-                        RemoveBlockButton(props.name)
-                        EnabledButton(); 
+                    if (props.registro === "CPF"){
+                        if (value.length === 11 && validateDupInputRegistro ===  true){
+                            this.setState({form_input: "form-control"})
+                            this.setState({messageError: ""})
+                            RemoveListErro(props.name)
+                            RemoveBlockButton(props.name)
+                            EnabledButton(); 
+                        }
+                        if (value.length === 0){
+                            this.setState({form_input: "form-control"})
+                            this.setState({messageError: ""})
+                            RemoveListErro(props.name)
+                            RemoveBlockButton(props.name)
+                            EnabledButton();
+                        }
+                    }
+                    if (props.registro === "CNPJ"){
+                        if (value.length === 14 && validateDupInputRegistro === true){
+                            this.setState({form_input: "form-control"})
+                            this.setState({messageError: ""})
+                            RemoveListErro(props.name)
+                            RemoveBlockButton(props.name)
+                            EnabledButton(); 
+                        }
+                        if (value.length === 0){
+                            this.setState({form_input: "form-control"})
+                            this.setState({messageError: ""})
+                            RemoveListErro(props.name)
+                            RemoveBlockButton(props.name)
+                            EnabledButton(); 
+                        }
                     }
                 }
             }
@@ -413,19 +427,18 @@ export class InputRegistro extends Component {
     }
 
     duplicateRegister = (value) =>{
-        if (value  != ""){
-            this.props.dbRegister.get("/proprietario")
-            .then(response => { this.setState({listProprietario: response.data},()=>{
-            var found = this.state.listProprietario.find(function(element) {
-                return element.pfpj === value;
-            });
-            
+        if (value != ""){
+            var found = list_cadastro[0].find(function(element){
+                return element.pfpj === value
+            })
             if (found != undefined){
-                this.setState({form_input: "form-control inputError"})
-                this.setState({messageError: "( Registro existente !) "})
-                AddListErro(this.props.name)
-                EnabledButton();
-            }})})
+                if (found.objID != objIDRegister){
+                    this.setState({form_input: "form-control inputError"})
+                    this.setState({messageError: "( Registro existente !) "})
+                    AddListErro(this.props.name)
+                    EnabledButton();
+                }
+            }
         }
     }
 
@@ -441,7 +454,7 @@ export class InputRegistro extends Component {
             EnabledButton();
         }
         this.props.updateValue(e.target.name,e.target.value);
-        searchValidate(e.target.value); 
+        //searchValidate(e.target.value); 
         this.handleChange()
     }
 
@@ -449,14 +462,8 @@ export class InputRegistro extends Component {
         var vlr = e.target.value.replace(/[^0-9]/g, '').toString().split("")
         var stringCamp = e.target.value.replace(/[^0-9]/g, '').toString()
         validateInputRegistro = true
-        
         {this.props.registro === "CPF"? this.checked_cpf(vlr, stringCamp, vlr.length):this.checked_cnpj(vlr,stringCamp, vlr.length)}
-        searchValidate(e.target.value);
-
-        if (validateCamp === true && disabledDupRegister === true){
-            this.duplicateRegister(e.target.value); 
-            disabledDupRegister = false; 
-        }
+        this.duplicateRegister(e.target.value);
         this.handleChange(); 
     }
 
