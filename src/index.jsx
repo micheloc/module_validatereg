@@ -14,6 +14,9 @@ export function DupRegisterCheck(objID){
 var blobk_button = []; 
 var error_list = []; 
 
+var valorCampInput = "";
+var nameCampInput = ""; 
+var list_comparacao = []; 
 
 var nameCamp = ""
 var nameInput = ""
@@ -490,6 +493,147 @@ export class InputRegistro extends Component {
         )
     }
 }
+
+export class InpuNumberComp extends Component {
+    constructor(props){
+        super(props)
+        this.state={
+            messageError: '', 
+            form_input: 'form-control', 
+        }
+        this.setEmptyValue = this.setEmptyValue.bind(this); 
+        this.handleChange = this.handleChange.bind(this); 
+    }
+    componentDidMount(){
+        if (this.props.req === true){
+            AddBlockButton(this.props.name)
+        }
+    }
+
+    componentWillReceiveProps(props){
+        if (nameInput === this.props.name || cheCked === true){
+            if (props.req === true ){
+                if (props.name === nameCamp){
+                    if (props.value === undefined || props.value === ""){
+                        this.setState({form_input: "form-control inputError"})
+                        this.setState({messageError: "( Campo obrigatorio!) "})
+                        AddListErro(props.name)
+                        EnabledButton();
+                    }
+                    if (props.value != ""){
+                        this.setState({form_input: "form-control"})
+                        this.setState({messageError: ""})
+                        RemoveListErro(props.name)
+                        RemoveBlockButton(props.name)
+                        EnabledButton(); 
+                    }
+                }
+                if (nameCamp === ""){
+                    if (props.value === undefined || props.value === ""){
+                        this.setState({form_input: "form-control inputError"})
+                        this.setState({messageError: "( Campo obrigatorio!) "})
+                        AddListErro(props.name)
+                        EnabledButton();
+                    }
+                    if (props.value != ""){
+                        this.setState({form_input: "form-control"})
+                        this.setState({messageError: ""})
+                        RemoveListErro(props.name)
+                        RemoveBlockButton(props.name)
+                        EnabledButton(); 
+                    }
+                }
+            }
+        }
+    }
+
+    setEmptyValue = (e) => {
+        if (e.target.value != undefined){
+            if (this.props.req ===  true){
+                if (e.target.value.length <= 0){
+                    nameCamp = e.target.name
+                    e.target.className = "form-control inputError"
+                    this.setState({ messageError: "( Campo obrigatorio! )"})
+                    AddListErro(e.target.name)
+                    EnabledButton();
+                }else{
+                    nameCamp = e.target.name
+                    e.target.className = "form-control"
+                    this.setState({messageError: "" })
+                    RemoveListErro(e.target.name)
+                    RemoveBlockButton(e.target.name)
+                    EnabledButton(); 
+                }
+            }    
+            cheCked = false       
+            this.props.updateValue(e.target.name,e.target.value); 
+        }
+        valorCampInput = e.target.value; 
+        nameCampInput = e.target.name; 
+        this.handleChange()
+    }
+
+    handleChange = () => {
+        nameInput = this.props.name;
+    }
+
+    compValor = () => {
+        if (this.props.comp){
+            var value = this.props.valueComp(list_comparacao); 
+            if (value){
+                this.setState({form_input: "form-control inputError"})
+                this.setState({messageError: "( Campo inválido!) "})
+                AddListErro(nameCampInput)
+                EnabledButton();
+            }else{
+                this.setState({form_input: "form-control"})
+                this.setState({messageError: ""})
+                RemoveListErro(nameCampInput)
+                RemoveBlockButton(nameCampInput)
+                EnabledButton(); 
+            }
+
+        }else{
+
+            var obj = list_comparacao.filter(item => nameCampInput.includes(item.name))
+            if (obj.length <= 0){
+                var validateCamp = { name: '', value: '' }
+                validateCamp.name = nameCampInput; 
+                validateCamp.value = valorCampInput; 
+                list_comparacao.push(validateCamp)
+            }
+            if (obj.length === 1){
+                for (var i = 0; i < list_comparacao.length; i++) {
+                    var obj = list_comparacao[i];
+                    if (obj.name === nameCampInput) {
+                        obj.value = valorCampInput;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <Input 
+                 className={this.state.form_input} 
+                 type="number" name={this.props.name} 
+                 id={this.props.name} 
+                 onChange={this.setEmptyValue} 
+                 value={this.props.value} 
+                 min={this.props.min}
+                 max={this.props.max}
+                 onBlur={this.compValor}
+                />
+
+                <Label className="labelError">{this.state.messageError}</Label>
+            </div>
+        );
+    }
+}
+
 
 export class InpuT extends Component {
     constructor(props){
