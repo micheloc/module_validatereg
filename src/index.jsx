@@ -102,6 +102,9 @@ export class InpuT extends Component {
     }
 
     componentWillReceiveProps(props){
+        if (props.req === true && props.value != ""){
+            this.setDisableCampoObrigatorio(props.name, true)
+        }
         // Permite a entrada somente do campo referente a esta classe.
         // Exemplo Input Nome sé ele for obrigátorio ele entra. 
         if (props.req === true && nameInpuT === props.name){
@@ -207,6 +210,11 @@ export class InputContato extends Component {
 
     componentWillReceiveProps(props){
         var value = props.value.replace(/[^0-9]/g, '').toString().split("")
+
+        if (props.req === true && props.value != ""){
+            this.setDisableCampoObrigatorio(props.name, true)
+        }
+
         if (props.req === true && nameInputContato === this.props.name){
             if (onBlurInputContato){
                 if (value.length === 0 ) this.setEnableCampObrigatorio(this.props.name, true,"( Campo obrigatorio! )")
@@ -309,6 +317,10 @@ export class InputRegistro extends Component {
 
     componentWillReceiveProps(props){
         var value = props.value.replace(/[^0-9]/g, '').toString().split("")
+
+        if (props.req === true && props.value != ""){
+            this.setDisableCampoObrigatorio(props.name, true)
+        }
 
         if (props.req === true && nameInputRegistro === props.name){
             if (onBlurInputRegistro){
@@ -497,14 +509,18 @@ export class InpuNumberComp extends Component {
 
 
     componentWillReceiveProps(props) {
+        if (props.req === true && props.value != ""){
+            this.setDisableCampoObrigatorio(props.name, true)
+        }
+
         if (props.req === true && nameInputNumberComp === props.name){
+            console.log("Oi")
             if (props.value.length === 0) this.setEnableCampObrigatorio(props.name, true, "( Campo obrigatório! )"); 
             if (props.value.length > 0) this.setDisableCampoObrigatorio(props.name, true); 
         }
 
         if (props.req === true && cheCked){
             if (nameInputNumberComp === "" || nameInputNumberComp === undefined){
-                console.log(props.value.length)
                 if (props.value.length === 0) this.setEnableCampObrigatorio(props.name, true, "( Campo obrigatório! )");
                 if (props.value.length > 0) this.setDisableCampoObrigatorio(props.name, true); 
             }
@@ -576,7 +592,7 @@ export class Btn extends Component {
         this.props.validate(); 
         cheCked = true; 
         if (blobk_button.length > 0) document.getElementById("myBtn").disabled = true;
-        if (blobk_button.length === false){ document.getElementById("myBtn").disabled = false; this.props.form(); }
+        if (blobk_button.length === 0){ document.getElementById("myBtn").disabled = false; this.props.form(); }
     }
 
     render() {
