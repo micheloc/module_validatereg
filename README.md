@@ -1,8 +1,6 @@
 # ValidateReg
 
-Componentes utilizados no validateReg.. 
-
-Essa api, ele é utilizada para validar campos como, CPF, CNPJ, Telefones. 
+Essa api, ela é utilizada para validar campos como, CPF, CNPJ, Telefones. 
 
 Tag's para validação. 
     * InpuT.                    (" Essa tag será utilizada para campos de textos, como: 'Nome','Endereco' etc... ").
