@@ -34,7 +34,6 @@ var onBlurInputContato = false;
 // Utilizado para validar o campo apos sair dele. 
 var onBlurInputRegistro = false; 
 
-
 // verificar após um click 
 var enterCheckedButton = false; 
 
@@ -480,10 +479,19 @@ export class InpuNumberComp extends Component {
             AddBlockButton(this.props.name)
         }
         ListComparacaoAdd(this.props.name, this.props.value)
+
+        if (this.props.value != undefined || this.props.value != ""){
+            console.log(this.props )
+            CompareList( this.props.name, this.props.value )
+        }
     }
 
 
     componentWillReceiveProps(props) {
+        if (props.value > 0){
+            CompareList( props.name, props.value )
+        }
+
         if (props.req === true && props.value != ""){
             this.setDisableCampoObrigatorio(props.name, true)
         }
