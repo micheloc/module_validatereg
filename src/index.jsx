@@ -475,21 +475,18 @@ export class InpuNumberComp extends Component {
     }
 
     componentDidMount(){
+        blockInputComp = false;
         if (this.props.req === true){
             AddBlockButton(this.props.name)
         }
         ListComparacaoAdd(this.props.name, this.props.value)
-
-        if (this.props.value != undefined || this.props.value != ""){
-            console.log(this.props )
-            CompareList( this.props.name, this.props.value )
-        }
     }
 
 
     componentWillReceiveProps(props) {
-        if (props.value > 0){
+        if (props.value >= 0){
             CompareList( props.name, props.value )
+           // props.valueComp(props.name, this.props.comp);
         }
 
         if (props.req === true && props.value != ""){
@@ -508,8 +505,10 @@ export class InpuNumberComp extends Component {
             }
         }
 
+
         if (blockInputComp === true && props.req === true){
             enterCheckedButton = true;
+        
             this.setEnableCampObrigatorio(props.name, true, "( Campo inválido! )")
             msgInputComp = true; 
         }
