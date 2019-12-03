@@ -508,8 +508,8 @@ export class Btn extends Component {
     onLoad = () =>{
         this.props.validate(); 
         cheCked = true; 
-        if (blobk_button.length > 0 || error_list.length > 0) document.getElementById("myBtn").disabled = true;
-        if (blobk_button.length === 0 || error_list.length === 0){ document.getElementById("myBtn").disabled = false; this.props.form(); }
+        if (blobk_button.length > 0 && error_list.length > 0) document.getElementById("myBtn").disabled = true;
+        if (blobk_button.length === 0 && error_list.length === 0){ document.getElementById("myBtn").disabled = false; this.props.form(); }
     }
 
     render() {
