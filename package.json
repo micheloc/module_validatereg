@@ -1,16 +1,24 @@
 {
     "name": "validatereg",
-    "version": "0.6.4",
+    "version": "0.6.5",
     "description": "React Validate Registro",
     "keywords": [
         "validar",
         "CPF",
         "CNPJ"
     ],
+    "homepage": "https://validatereg.netlify.com",
     "author": {
         "name": "Michel Oliveira",
         "email": "michel.o.c@hotmail.com"
     },
+    "contributors": [
+        {
+          "name": "Michel Oliveira",
+          "email": "michel.o.c@hotmail.com",
+          "url": "https://validatereg.netlify.com"
+        }
+    ],
     "main": "./lib/index.js",
     "license": "MIT",
     "scripts": {
