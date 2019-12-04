@@ -18,7 +18,6 @@ export var msgInputComp = false;
 
 var blockInputComp = false; 
 
-
 // Variáveis responsaveis por capturar o nome do campo
 // na hora da validação. 
 var nameInputNumberComp = ""
@@ -27,9 +26,6 @@ var nameInputContato = ""
 var nameInpuT = ""
 var cheCked = false; 
 //var checkedEnabledButton = true
-
-// Utilizado para validar o campo apos sair dele. 
-var onBlurInputContato = false; 
 
 // Utilizado para validar o campo apos sair dele. 
 var onBlurInputRegistro = false; 
@@ -94,10 +90,9 @@ export class InpuT extends Component {
     }
 
     componentWillReceiveProps(props){
-        var value = props.value.replace(/[^0-9]/g, '').toString().split("")
-        if (props.req === true && props.value != ""){ this.setDisableCampoObrigatorio(this.props.name, true) }
-        if (props.req === true && cheCked === true && nameInpuT === props.name  && value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
-        if (props.req === true && cheCked === true && nameInpuT === ""  && value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
+        if (props.req === true && props.value.length > 0){ RemoveBlockButton(props.name) }
+        if (props.req === true && cheCked === true && nameInpuT === props.name  && props.value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
+        if (props.req === true && cheCked === true && nameInpuT === ""  && props.value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
         nameInpuT = ""
     }
 
@@ -166,10 +161,9 @@ export class InputContato extends Component {
     }
 
     componentWillReceiveProps(props){
-        var value = props.value.replace(/[^0-9]/g, '').toString().split("")
-        if (props.req === true && props.value != ""){ this.setDisableCampoObrigatorio(this.props.name, true) }
-        if (props.req === true && cheCked === true && value.length === 0 && nameInputContato === ""){ this.setEnableCampObrigatorio(this.props.name, true,"( Campo Obrigatório! )")}
-        if (props.req === true && cheCked === true && value.length === 0 && nameInputContato === this.props.name){ this.setEnableCampObrigatorio(this.props.name, true,"( Campo Obrigatório! )")}
+        if (props.req === true && props.value.length > 0){ RemoveBlockButton(props.name) }
+        if (props.req === true && cheCked === true && props.value.length === 0 && nameInputContato === ""){ this.setEnableCampObrigatorio(this.props.name, true,"( Campo Obrigatório! )")}
+        if (props.req === true && cheCked === true && props.value.length === 0 && nameInputContato === this.props.name){ this.setEnableCampObrigatorio(this.props.name, true,"( Campo Obrigatório! )")}
     }
 
     setEmptyValue = (e) => {
@@ -246,13 +240,12 @@ export class InputRegistro extends Component {
     }
 
     componentWillReceiveProps(props){
-        var value = props.value.replace(/[^0-9]/g, '').toString().split("")
-        if (props.req === true && props.value != ""){ this.setDisableCampoObrigatorio(this.props.name, true) }
-        if (props.req === true && cheCked === true && props.registro === "CPF"  && value.length > 0 && value.length < 11 ){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo incompleto! )")}
-        if (props.req === true && cheCked === true && props.registro === "CNPJ" && value.length > 0 && value.length < 14 ){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo incompleto! )")}
-        if (props.req === true && cheCked === true && value.length === 0 && nameInputRegistro === ""){ this.setEnableCampObrigatorio(this.props.name, true,"( Campo Obrigatório! )")}
-        if (props.req === true && onBlurInputRegistro === true && props.registro === "CPF"  && value.length === 0 && props.name === nameInputRegistro){ onBlurInputRegistro = false; this.setEnableCampObrigatorio(props.name, true, "( Campo Obrigatório! )")}
-        if (props.req === true && onBlurInputRegistro === true && props.registro === "CNPJ"  && value.length === 0 && props.name === nameInputRegistro){ onBlurInputRegistro = false; this.setEnableCampObrigatorio(props.name, true, "( Campo Obrigatório! )")}
+        if (props.req === true && props.value != ""){ RemoveBlockButton(props.name) }
+        if (props.req === true && cheCked === true && props.registro === "CPF"  && props.value.length > 0 && props.value.length < 11 ){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo incompleto! )")}
+        if (props.req === true && cheCked === true && props.registro === "CNPJ" && props.value.length > 0 && props.value.length < 14 ){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo incompleto! )")}
+        if (props.req === true && cheCked === true && props.value.length === 0 && nameInputRegistro === ""){ this.setEnableCampObrigatorio(this.props.name, true,"( Campo Obrigatório! )")}
+        if (props.req === true && onBlurInputRegistro === true && props.registro === "CPF"   && props.value.length === 0 && props.name === nameInputRegistro){ onBlurInputRegistro = false; this.setEnableCampObrigatorio(props.name, true, "( Campo Obrigatório! )")}
+        if (props.req === true && onBlurInputRegistro === true && props.registro === "CNPJ"  && props.value.length === 0 && props.name === nameInputRegistro){ onBlurInputRegistro = false; this.setEnableCampObrigatorio(props.name, true, "( Campo Obrigatório! )")}
     }
 
     checked_cpf = (vlr, value, length) =>{
@@ -308,10 +301,16 @@ export class InputRegistro extends Component {
     }
 
     duplicateRegister = (value) =>{
-        if (value != ""){
-            var found = list_cadastro[0].find(function(element){ return element.pfpj === value })
-            if (found != undefined){ if (found.objID != objIDRegister){ this.setEnableCampObrigatorio(this.props.name, true,"( Registro Existente! )") } }
-        }
+        try {
+            if (value != ""){
+                var found = list_cadastro[0].find(function(element){ return element.pfpj === value })
+                if (found != undefined){ if (found.objID != objIDRegister){ this.setEnableCampObrigatorio(this.props.name, true,"( Registro Existente! )") } }
+            }
+         }
+         catch (e) {
+            console.log("não foi possivel conectar")
+         }
+
     }
 
     setEmptyValue = (e) => {
@@ -391,29 +390,9 @@ export class InpuNumberComp extends Component {
 
 
     componentWillReceiveProps(props) {
-        if (props.req === true && props.value != ""){ this.setDisableCampoObrigatorio(this.props.name, true) }
-        if (props.value >= 0){
-            CompareList( props.name, props.value )
-           // props.valueComp(props.name, this.props.comp);
-        }
-
-        if (props.req === true && props.value != ""){
-            this.setDisableCampoObrigatorio(props.name, true)
-        }
-
-        if (props.req === true && nameInputNumberComp === props.name){
-            if (props.value.length === 0){ this.setEnableCampObrigatorio(props.name, true, "( Campo obrigatório! )"); }
-            if (props.value.length > 0) this.setDisableCampoObrigatorio(props.name, true); 
-        }
-
-        if (props.req === true && cheCked){
-            if (nameInputNumberComp === "" || nameInputNumberComp === undefined){
-                if (props.value.length === 0){ this.setEnableCampObrigatorio(props.name, true, "( Campo obrigatório! )");}
-                if (props.value.length > 0) this.setDisableCampoObrigatorio(props.name, true); 
-            }
-        }
-
-
+        if (props.req === true && props.value != ""){ RemoveBlockButton(props.name) }
+        if (props.value >= 0){ CompareList( props.name, props.value ) }
+        if (props.req === true && cheCked === true && nameInputNumberComp === "" && props.value.length === 0){ this.setEnableCampObrigatorio(props.name, true, "( Campo obrigatório! )"); }
         if (blockInputComp === true && props.req === true){
             this.setEnableCampObrigatorio(props.name, true, "( Campo inválido! )")
             msgInputComp = true; 
@@ -422,15 +401,10 @@ export class InpuNumberComp extends Component {
     }
 
     setEmptyValue = (e) =>{
-
-        // Aqui vai verificar sé o campo e obrigatório para validar as informações digitadas.
         var vlr = e.target.value.replace(/[^0-9]/g, '').toString().split("") 
         nameInputNumberComp = e.target.name
-        cheCked = false
-        if (e.target.value != undefined && this.props.req === true){
-            if (vlr.length === 0){ this.setEnableCampObrigatorio(e.target.name, true, "( Campo obrigatório! )"); }
-            if (vlr.length > 0) this.setDisableCampoObrigatorio(e.target.name, true); 
-        }
+        if (this.props.req === true && vlr.length === 0){ this.setEnableCampObrigatorio(e.target.name, true, "( Campo obrigatório! )"); }
+        if (this.props.req === true && vlr.length  >  0){ this.setDisableCampoObrigatorio(e.target.name, true); }
 
         cheCked = false
         this.props.updateValue(e.target.name, e.target.value); 
