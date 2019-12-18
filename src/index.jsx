@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import InputMask from 'react-input-mask';
 import { Input, Label, Button  } from 'reactstrap'; 
-import '../css/InputError.css'; 
+import '../css/InputError.css'
 export var list_cadastro = []; 
 
 var objIDRegister;
@@ -27,10 +27,6 @@ var nameInpuT = ""
 var cheCked = false; 
 var validateReg = false; 
 var verify = false;
-//var checkedEnabledButton = true
-
-// Utilizado para validar o campo apos sair dele. 
-var onBlurInputRegistro = false; 
 
 // verificar após um click 
 var enterCheckedButton = false; 
@@ -166,7 +162,8 @@ export class InputContato extends Component {
     }
 
     componentWillReceiveProps(props){
-        var vlr = props.value.replace(/[^0-9]/g, '').toString().split("") 
+        var vlr = props.value.replace(/[^0-9]/g, '').toString().split("")
+        if (props.req === true  && vlr.length > 0  ){ this.setDisableCampoObrigatorio(props.name, true); } 
         if (props.req === false && vlr.length === 0){ verify = false; this.setDisableCampoObrigatorio(props.name, true)}
         if (props.req === true  && vlr.length === 0){ verify = true }
         if (props.req === true  && validateReg === false && props.tpContato === "fax" && props.value.length === 10){ validateReg = true; this.setDisableCampoObrigatorio(props.name, true);}
@@ -254,8 +251,9 @@ export class InputRegistro extends Component {
 
     componentWillReceiveProps(props){
         var vlr = props.value.replace(/[^0-9]/g, '').toString().split("") 
+        if (props.req === true  && vlr.length > 0  ){ this.setDisableCampoObrigatorio(props.name, true); } 
         if (props.req === false && vlr.length === 0){ verify = false; this.setDisableCampoObrigatorio(props.name, true)}
-        if (props.req === true && vlr.length === 0){ verify = true }
+        if (props.req === true  && vlr.length === 0){ verify = true }
         if (props.req === true  && validateReg === false && props.registro === "CNPJ" && props.value.length === 18){ validateReg = true; this.setDisableCampoObrigatorio(props.name, true);}
         if (props.req === true  && validateReg === false && props.registro === "CPF"  && props.value.length === 14){ validateReg = true; this.setDisableCampoObrigatorio(props.name, true);}
         if (props.req === false && validateReg === false && props.registro === "CNPJ" && props.value.length === 18){ validateReg = true; this.setDisableCampoObrigatorio(props.name, true);}
@@ -473,7 +471,6 @@ export class Btn extends Component {
         nameInputRegistro = ""
         nameInputContato = ""
         cheCked = true; 
-        console.log(blobk_button)
         if (blobk_button.length > 0 && error_list.length > 0 || verify === true) document.getElementById("myBtn").disabled = true;
         if (blobk_button.length === 0 && error_list.length === 0 && verify === false){ document.getElementById("myBtn").disabled = false; this.props.form(); }
     }
