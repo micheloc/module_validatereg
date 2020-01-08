@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import InputMask from 'react-input-mask';
-import { Input, Label, Button  } from 'reactstrap'; 
+import { Input, Label, Button, InputGroup  } from 'reactstrap'; 
 import '../css/InputError.css'
 export var list_cadastro = []; 
 
@@ -95,9 +95,11 @@ export class InpuT extends Component {
     componentWillReceiveProps(props){
         if (props.req === true){
             if (props.value >= 0 && isNumber(props.value)) {this.setDisableCampoObrigatorio(props.name, true); }
-            if (props.value.length > 0){this.setDisableCampoObrigatorio(props.name, true); }
-            if (cheCked === true && nameInpuT === props.name  && props.value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
-            if (cheCked === true && nameInpuT === ""  && props.value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
+            if (props.value != undefined){
+                if (props.value.length > 0){this.setDisableCampoObrigatorio(props.name, true); }
+                if (cheCked === true && nameInpuT === props.name  && props.value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
+                if (cheCked === true && nameInpuT === ""  && props.value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
+            }
         }
         nameInpuT = ""
     }
