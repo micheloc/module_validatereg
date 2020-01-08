@@ -1,6 +1,6 @@
 {
     "name": "validatereg",
-    "version": "0.6.7",
+    "version": "0.6.9",
     "description": "React Validate Registro",
     "keywords": [
         "validar",
@@ -14,9 +14,9 @@
     },
     "contributors": [
         {
-          "name": "Michel Oliveira",
-          "email": "michel.o.c@hotmail.com",
-          "url": "https://validatereg.netlify.com"
+            "name": "Michel Oliveira",
+            "email": "michel.o.c@hotmail.com",
+            "url": "https://validatereg.netlify.com"
         }
     ],
     "main": "./lib/index.js",

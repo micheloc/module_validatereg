@@ -72,6 +72,10 @@ function CompareList (campo, value){
     }
 }
 
+function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 export class InpuT extends Component {
     constructor(props){
         super(props)
@@ -89,9 +93,12 @@ export class InpuT extends Component {
     }
 
     componentWillReceiveProps(props){
-        if (props.req === true && props.value.length > 0){ this.setDisableCampoObrigatorio(props.name, true); }
-        if (props.req === true && cheCked === true && nameInpuT === props.name  && props.value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
-        if (props.req === true && cheCked === true && nameInpuT === ""  && props.value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
+        if (props.req === true){
+            if (props.value >= 0 && isNumber(props.value)) {this.setDisableCampoObrigatorio(props.name, true); }
+            if (props.value.length > 0){this.setDisableCampoObrigatorio(props.name, true); }
+            if (cheCked === true && nameInpuT === props.name  && props.value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
+            if (cheCked === true && nameInpuT === ""  && props.value.length === 0){ this.setEnableCampObrigatorio(this.props.name, true, "( Campo Obrigatório! )")}
+        }
         nameInpuT = ""
     }
 
@@ -100,7 +107,9 @@ export class InpuT extends Component {
         nameInpuT = e.target.name
         if (this.props.req === true && e.target.value.length === 0){ this.setEnableCampObrigatorio(e.target.name, true, "( Campo obrigatório! )"); }
         if (this.props.req === true && e.target.value.length  >  0){ this.setDisableCampoObrigatorio(this.props.name, true) }
-        this.props.updateValue(e.target.name, e.target.value); 
+        this.props.updateValue(e.target.name, e.target.value);
+
+        
     }
     setEnableCampObrigatorio (nameCamp, campo, msgError) {
         if (campo === true) this.setState({form_input: "form-control inputError"}) 
@@ -119,7 +128,7 @@ export class InpuT extends Component {
     render() {
         return (
             <div>
-                <Input className={this.state.form_input} type="text" name={this.props.name} id={this.props.name} onBlur={this.setEmptyValue} onChange={this.setEmptyValue} value={this.props.value} />
+                <Input className={this.state.form_input} type="text" name={this.props.name} id={this.props.name} onBlur={this.setEmptyValue} onChange={this.setEmptyValue} value={this.props.value} disabled={this.props.disabled}  />
                 <Label className="labelError">{this.state.messageError}</Label>
             </div>
         );
@@ -219,7 +228,7 @@ export class InputContato extends Component {
                 <InputMask className={this.state.form_input} type="text" name={this.props.name} id={this.props.name}
                     mask={this.props.tpContato === "fax"?'(99) 9999-9999':'(99) 9 9999-9999'}
                     placeholder={this.props.tpContato === "fax"? '(61) 3620-1515':'(61) 9 9500-4515'}
-                    onBlur={this.onBlurChecked} onChange={this.setEmptyValue}  value={this.props.value} />
+                    onBlur={this.onBlurChecked} onChange={this.setEmptyValue}  value={this.props.value} disabled={this.props.disabled}/>
                 <Label className="labelError">{this.state.messageError}</Label>
             </div>
         )
@@ -368,6 +377,8 @@ export class InputRegistro extends Component {
     render() {
         return (
           <div >
+          
+
                 <InputMask className={this.state.form_input} name={this.props.name}  
                     id={this.props.name} type="text" 
                     mask={this.props.registro === "CPF" ? '999.999.999-99' : '99.999.999/9999-99'} 
@@ -375,6 +386,7 @@ export class InputRegistro extends Component {
                     onBlur={this.onBlurChecked}
                     onChange={this.setEmptyValue}
                     value={this.props.value}
+                    disabled={this.props.disabled}
                 />
                 <Label className="labelError">{this.state.messageError}</Label>
           </div>
@@ -446,7 +458,7 @@ export class InpuNumberComp extends Component {
     render(){
         return (
             <div>
-                <Input className={this.state.form_input} type="number" name={this.props.name} id={this.props.name} onChange={this.setEmptyValue} value={this.props.value} min={this.props.min}max={this.props.max} onBlur={this.handleSaveNumber} />
+                <Input className={this.state.form_input} type="number" name={this.props.name} id={this.props.name} onChange={this.setEmptyValue} value={this.props.value} min={this.props.min}max={this.props.max} onBlur={this.handleSaveNumber} disabled={this.props.disabled}/>
                 <Label className="labelError">{this.state.messageError}</Label>
             </div>
         )
