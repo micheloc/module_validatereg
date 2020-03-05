@@ -2,6 +2,7 @@ import { Button, Label, Input  } from 'reactstrap';
 import InputMask from 'react-input-mask';
 import React, { Component } from 'react';
 
+
 var List_Input_Required = []; 
 
 // Ativa o block button de cada componente. 
@@ -23,6 +24,13 @@ export function ApiConect(api, caminho){
   config_api = api; 
   path =  caminho; 
 }
+
+export function ClearList (){
+  for (var i = List_Input_Required.length; i > 0; i--) {
+    List_Input_Required.pop();
+  }
+}
+
 
 function Add_List_Input_Required (Campo){ 
   var index = List_Input_Required.indexOf(Campo); 
@@ -184,6 +192,7 @@ export class InputContato extends Component {
   componentWillReceiveProps(props){
     var value = props.value.replace(/[^0-9]/g, '').toString().split("")
     if ( props.req === false && value.length === 0){ Remove_List_Input_Required(props.name); this.setState({message: ""}) }
+    if ( props.req === true && props.value.length   > 0 ) { Remove_List_Input_Required(props.name); }
     if ( props.req && value.length === 0 && Click_Enab_Req_InputContato ) { this._setEnableRequired("( * Campo obrigatório! )");}
   }
 
