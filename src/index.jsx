@@ -31,7 +31,6 @@ export function ClearList (){
   }
 }
 
-
 function Add_List_Input_Required (Campo){ 
   var index = List_Input_Required.indexOf(Campo); 
   if (index < 0){
@@ -192,7 +191,8 @@ export class InputContato extends Component {
   componentWillReceiveProps(props){
     var value = props.value.replace(/[^0-9]/g, '').toString().split("")
     if ( props.req === false && value.length === 0){ Remove_List_Input_Required(props.name); this.setState({message: ""}) }
-    if ( props.req === true && props.value.length   > 0 ) { Remove_List_Input_Required(props.name); }
+    if ( props.req && value.length === 0){ Add_List_Input_Required(props.name)}
+    if ( props.req === true  && value.length   > 0 ) { Remove_List_Input_Required(props.name); }
     if ( props.req && value.length === 0 && Click_Enab_Req_InputContato ) { this._setEnableRequired("( * Campo obrigatório! )");}
   }
 
@@ -404,7 +404,7 @@ export class InputNumberComp extends Component {
     if ( props.req  && props.value !== "" ) { this._setDisabledRequired() }
     
     // Conferi ao iniciar o formulario. 
-    if ( props.req === false && parseFloat(props.value) >= 0 ) {
+    if ( props.comp === false && parseFloat(props.value) >= 0 ) {
       var index = notreptNumber.indexOf(props.name); 
       if (index < 0){
         somaValorInputNumber = 0; 
@@ -426,7 +426,8 @@ export class InputNumberComp extends Component {
     if ( props.req  && props.value.length === 0 && Click_Enab_Req_InputNumberComp ) { this.setState({message: "( * Campo obrigatório! )"}); this._setEnableRequired(); }
     if ( props.comp && parseFloat(props.value) >= 0 ){
       if (parseFloat(somaValorInputNumber) >= parseFloat(props.value)){
-        this.setState({message : "( * O valor tem que ser maior que a soma da área plantada e área irrigada! )"})
+        //this.setState({message : "( * O valor tem que ser maior que a soma da área plantada e área irrigada! )"})
+        this.setState({message : this.props.msg})
         this._setEnableRequired();
       }else{
         if (parseFloat(props.value) > parseFloat(somaValorInputNumber)){
@@ -558,20 +559,21 @@ export class InputRegistro extends Component {
   componentWillReceiveProps(props){
     var  value = props.value.replace(/[^0-9]/g, '').toString().split("")
     if ( props.req === false && this.props.optional === true && value.length === 0 ){ Remove_List_Input_Required(props.name); this.setState({message: ""})}
+    if ( props.req && value.length === 0){ Add_List_Input_Required(props.name)}
     if ( props.req === true && props.value.length   > 0 ) { Remove_List_Input_Required(props.name); }
     if ( props.req === true  && value.length === 0 && Click_Enab_Req_InputReqgistro === true ) { this._setEnableRequired("( * Campo obrigatório! )")}
   }
 
   _duplicateRegister = async (value) => {
     try{
-      let obj = await config_api.get(path, {params: {pfpj: value}}); 
-      if (obj.data.length > 0){
+      let obj = await config_api.get(path, {params: {registro: value}}); 
+      console.log(obj.data)
+      if (obj.data !== null && obj.data.length > 0){
+        console.log("olá")
         this._setEnableRequired("( * Registro existente! )")
       }
     }
-    catch(e){
-      console.log(e)
-    }
+    catch(e){ }
   }
 
   _handleChange = (e) => { 
