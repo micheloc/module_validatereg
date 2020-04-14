@@ -288,6 +288,7 @@ export class InputNumber extends Component {
   componentWillReceiveProps(props){
     if ( props.req && props.value !== "" ) { this._setDisabledRequired() }
     if ( props.req && props.value.length === 0 && Click_Enab_Req_InputNumber) { this.setState({message: "( * Campo obrigatório! )"}); this._setEnableRequired(); }
+    if ( props.req && props.value === "" && Click_Enab_Req_InputNumber) { this.setState({message: "( * Campo obrigatório! )"}); this._setEnableRequired(); }
   }
 
   _clearKeyPress = () => {
@@ -346,7 +347,7 @@ export class InputNumber extends Component {
   }
 
   _setDisabledRequired = () =>{ 
-    Click_Enab_Req_InputNumber = false;
+    //Click_Enab_Req_InputNumber = false;
     this.setState({isValid: false}, () => { 
       Remove_List_Input_Required(this.props.name); 
       document.getElementById("Button").disabled = false;
